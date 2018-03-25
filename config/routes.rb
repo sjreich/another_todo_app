@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  resources :tasks, only: :index
+  root to: 'tasks#index'
+  namespace :api do
+    resources :tasks, only: :index
+  end
 end
