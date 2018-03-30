@@ -13,9 +13,21 @@ class TaskList extends React.Component {
 
   constructor (props) {
     super(props);
+
     this.state = {
       tasks: []
     };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.checked;
+
+    this.setState({
+      tasks: []
+    });
   }
 
   componentDidMount () {
@@ -29,8 +41,14 @@ class TaskList extends React.Component {
         <ul>
           {this.state.tasks.map((task) =>
             <li key={'task-' + task.id}>
-              <input type="checkbox" id={'task-complete-' + task.id} checked={task.is_complete}/>
-              <label htmlFor={'task-complete-' + task.id}> {task.title}</label>
+              <label>
+                {task.title}
+                <input 
+                  type="checkbox"
+                  checked={task.is_complete}
+                  onChange={this.handleInputChange}
+                />
+              </label>
               <p>{task.description}</p>
             </li>
           )}
