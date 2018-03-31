@@ -24,9 +24,12 @@ class TaskList extends React.Component {
   handleInputChange(event) {
     const target = event.target;
     const value = target.checked;
+    const task_id = target.getAttribute('task_id');
 
-    this.setState({
-      tasks: []
+    this.setState((prevState, props) => {
+      return prevState['tasks'].map(t => 
+        t.id === parseInt(task_id) ? t.is_complete = value && t : t
+      )
     });
   }
 
@@ -45,6 +48,7 @@ class TaskList extends React.Component {
                 {task.title}
                 <input 
                   type="checkbox"
+                  task_id={task.id}
                   checked={task.is_complete}
                   onChange={this.handleInputChange}
                 />
