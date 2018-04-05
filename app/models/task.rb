@@ -4,6 +4,10 @@ class Task < ApplicationRecord
   end
 
   def complete!
-    update(completed_at: Time.current)
+    update!(completed_at: Time.current)
+  end
+
+  def uncomplete!
+    update!(completed_at: nil)
   end
 end
