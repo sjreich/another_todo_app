@@ -1,24 +1,3 @@
-# README
+This is very much work-in-progress.  It's a learning project with react and rails - another to-do app project.  I'm letting myself go down all of the rabbit holes here, so... real progress isn't really the goal.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+I did succeed in getting this thing to revert a 'check' in a to-do box if the server fails to process the update correctly.  Not totally thrilled with the implementation, but it works!
