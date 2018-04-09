@@ -24,12 +24,23 @@ class TaskList extends React.Component {
       .set('X-CSRF-Token', this.getCSRFToken())
       .send({task: {is_complete: is_complete} })
       .end((error, response) => {
-        if error { return false; }
-        this.setState((prevState, props) => {
-          const task_index = prevState['tasks'].indexOf(t => t.id === parseInt(task_id))
-          prevState['tasks'].splice(task_index, response.body.task);
-        })
-        return true;
+        if (error) {
+          this.setState((prevState, props) => {
+            const task_index = prevState['tasks'].findIndex(t => t.id === parseInt(task_id))
+            const task = prevState['tasks'][task_index];
+            task.is_complete = !is_complete;
+            prevState['tasks'].splice(task_index, task);
+          })
+          this.forceUpdate();
+          return false;
+        } else {
+          this.setState((prevState, props) => {
+            const task_index = prevState['tasks'].findIndex(t => t.id === parseInt(task_id))
+            prevState['tasks'].splice(task_index, response.body.task);
+          })
+          this.forceUpdate();
+          return true;
+        }
       })
   }
 
@@ -48,18 +59,17 @@ class TaskList extends React.Component {
     const value = target.checked;
     const task_id = target.getAttribute('task_id');
 
-    const priorState = this.state;
-
     this.setState((prevState, props) => {
-      return prevState['tasks'].map(t => 
-        t.id === parseInt(task_id) ? t.is_complete = value && t : t
-      )
+      const new_tasks = prevState['tasks'].map(t => {
+        if (t.id === parseInt(task_id)) {
+          t.is_complete = value;
+        }
+        return t;
+      })
+      return { tasks: new_tasks };
     });
 
-    const was_failure = this.handleCompletionsOnServer(task_id, value);
-    if was_failure {
-      this.setState(priorState);
-    }
+    this.handleCompletionsOnServer(task_id, value);
   }
 
   componentDidMount () {
