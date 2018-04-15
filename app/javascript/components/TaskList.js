@@ -25,22 +25,20 @@ class TaskList extends React.Component {
       .send({task: {is_complete: is_complete} })
       .end((error, response) => {
         if (error) {
+          this.props.errorCollector(error);
           this.setState((prevState, props) => {
             const task_index = prevState['tasks'].findIndex(t => t.id === parseInt(task_id))
             const task = prevState['tasks'][task_index];
             task.is_complete = !is_complete;
             prevState['tasks'].splice(task_index, task);
-            prevState['errors'].push(error);
           });
           this.forceUpdate();
-          return false;
         } else {
           this.setState((prevState, props) => {
             const task_index = prevState['tasks'].findIndex(t => t.id === parseInt(task_id))
             prevState['tasks'].splice(task_index, response.body.task);
           });
           this.forceUpdate();
-          return true;
         }
       })
   }
@@ -49,7 +47,6 @@ class TaskList extends React.Component {
     super(props);
 
     this.state = {
-      errors: [],
       tasks: []
     };
 
@@ -81,18 +78,6 @@ class TaskList extends React.Component {
   render () {
     return (
       <React.Fragment>
-        { this.state.errors.length >= 1 &&
-            <div>
-              <h5>Errors:</h5>
-              <ul>
-                {this.state.errors.map(error => 
-                  <li key={'error-' + this.state.errors.indexOf(error)}>
-                    <p>{error.message}</p>
-                  </li>
-                )}
-              </ul>
-            </div>
-        }
         <h3>My tasks</h3>
         <ul>
           {this.state.tasks.map((task) =>
