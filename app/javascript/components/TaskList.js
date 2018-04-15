@@ -1,6 +1,6 @@
 import React from "react"
-import PropTypes from "prop-types"
 import request from "superagent"
+import TaskItem from './TaskItem.js'
 
 class TaskList extends React.Component {
   getCSRFToken() {
@@ -97,16 +97,7 @@ class TaskList extends React.Component {
         <ul>
           {this.state.tasks.map((task) =>
             <li key={'task-' + task.id}>
-              <label>
-                {task.title}
-                <input 
-                  type="checkbox"
-                  task_id={task.id}
-                  checked={task.is_complete}
-                  onChange={this.handleInputChange}
-                />
-              </label>
-              <p>{task.description}</p>
+              <TaskItem task={task} changeHandler={this.handleInputChange} />
             </li>
           )}
         </ul>
@@ -115,4 +106,4 @@ class TaskList extends React.Component {
   }
 }
 
-export default TaskList
+export default TaskList;
