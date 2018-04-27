@@ -12,13 +12,6 @@ class WholeThing extends React.Component {
     this.errorCollector = this.errorCollector.bind(this);
   }
 
-  errorCollector (error) {
-    this.setState((prevState, props) => {
-      prevState['errors'].push(error);
-    });
-    this.forceUpdate();
-  }
-
   render () {
     return (
       <React.Fragment>
@@ -36,11 +29,18 @@ class WholeThing extends React.Component {
         }
         <TaskList
           initialTasks={this.props.initialTasks}
-          errorCollector={this.errorCollector}
+          errorCollector={this.collectError}
           csrfToken={this.props.csrfToken}
         />
       </React.Fragment>
     );
+  }
+
+  collectError (error) {
+    this.setState((prevState, props) => {
+      prevState['errors'].push(error);
+    });
+    this.forceUpdate();
   }
 }
 
