@@ -1,4 +1,5 @@
 import React from 'react'
+import ErrorList from './ErrorList.js'
 import TaskList from './TaskList.js'
 
 class WholeThing extends React.Component {
@@ -9,24 +10,13 @@ class WholeThing extends React.Component {
       errors: []
     };
 
-    this.errorCollector = this.errorCollector.bind(this);
+    this.collectError = this.collectError.bind(this);
   }
 
   render () {
     return (
       <React.Fragment>
-        { this.state.errors.length >= 1 &&
-          <div>
-            <h5>Errors:</h5>
-            <ul>
-              {this.state.errors.map(error => 
-                <li key={'error-' + this.state.errors.indexOf(error)}>
-                  <p>{error.message}</p>
-                </li>
-              )}
-            </ul>
-          </div>
-        }
+        <ErrorList errors={this.state.errors} />
         <TaskList
           initialTasks={this.props.initialTasks}
           errorCollector={this.collectError}
