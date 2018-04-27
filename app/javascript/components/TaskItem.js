@@ -12,7 +12,7 @@ class TaskItem extends React.Component {
             type="checkbox"
             task_id={task.id}
             checked={task.is_complete}
-            onChange={this.props.changeHandler}
+            onChange={this.props.statusToggler}
           />
         </label>
         <p>{task.description}</p>

@@ -3,7 +3,47 @@ import request from "superagent"
 import TaskItem from './TaskItem.js'
 
 class TaskList extends React.Component {
-  handleCompletionsOnServer(task_id, is_complete) {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      tasks: this.props.initialTasks
+    };
+
+    this.toggleTaskStatus = this.toggleTaskStatus.bind(this);
+  }
+
+  render () {
+    return (
+      <React.Fragment>
+        <h3>My tasks</h3>
+        <ul>
+          {this.state.tasks.map((task) =>
+            <li key={'task-' + task.id}>
+              <TaskItem task={task} statusToggler={this.toggleTaskStatus} />
+            </li>
+          )}
+        </ul>
+      </React.Fragment>
+    );
+  }
+
+  toggleTaskStatus(event) {
+    const task_id = parseInt(event.target.getAttribute('task_id'));
+    const is_checked = event.target.checked;
+
+    this.setState((prevState, props) => {
+      const new_tasks = prevState['tasks'].map(task => {
+        if (task.id === task_id) { task.is_complete = is_checked; }
+        return task;
+      })
+      return { tasks: new_tasks };
+    });
+
+    this.toggleTaskStatusOnServer(task_id, is_checked);
+  }
+
+  toggleTaskStatusOnServer(task_id, is_complete) {
     request
       .patch(`/api/tasks/${task_id}.json`)
       .set('X-CSRF-Token', this.props.csrfToken)
@@ -26,49 +66,6 @@ class TaskList extends React.Component {
           this.forceUpdate();
         }
       })
-  }
-
-  constructor (props) {
-    super(props);
-
-    this.state = {
-      tasks: this.props.initialTasks
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.checked;
-    const task_id = target.getAttribute('task_id');
-
-    this.setState((prevState, props) => {
-      const new_tasks = prevState['tasks'].map(t => {
-        if (t.id === parseInt(task_id)) {
-          t.is_complete = value;
-        }
-        return t;
-      })
-      return { tasks: new_tasks };
-    });
-
-    this.handleCompletionsOnServer(task_id, value);
-  }
-
-  render () {
-    return (
-      <React.Fragment>
-        <h3>My tasks</h3>
-        <ul>
-          {this.state.tasks.map((task) =>
-            <li key={'task-' + task.id}>
-              <TaskItem task={task} changeHandler={this.handleInputChange} />
-            </li>
-          )}
-        </ul>
-      </React.Fragment>
-    );
   }
 }
 
