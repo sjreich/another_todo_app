@@ -1,9 +1,5 @@
 module Api
   class TasksController < ApplicationController
-    def index
-      @tasks = Task.all
-    end
-
     def update
       @task = Task.find(params[:id])
       handle_completions!

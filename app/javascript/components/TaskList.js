@@ -3,25 +3,10 @@ import request from "superagent"
 import TaskItem from './TaskItem.js'
 
 class TaskList extends React.Component {
-  getCSRFToken() {
-    const meta_tags = document.getElementsByTagName('meta');
-    const csrf_tag = meta_tags.namedItem('csrf-token');
-
-    return csrf_tag.content;
-  }
-
-  load_tasks_from_server () {
-    request
-      .get('/api/tasks.json')
-      .end((err, response) => {
-        this.setState({tasks: response.body.tasks});
-      })
-  }
-
   handleCompletionsOnServer(task_id, is_complete) {
     request
       .patch(`/api/tasks/${task_id}.json`)
-      .set('X-CSRF-Token', this.getCSRFToken())
+      .set('X-CSRF-Token', this.props.csrfToken)
       .send({task: {is_complete: is_complete} })
       .end((error, response) => {
         if (error) {
@@ -47,7 +32,7 @@ class TaskList extends React.Component {
     super(props);
 
     this.state = {
-      tasks: []
+      tasks: this.props.initialTasks
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -69,10 +54,6 @@ class TaskList extends React.Component {
     });
 
     this.handleCompletionsOnServer(task_id, value);
-  }
-
-  componentDidMount () {
-    this.load_tasks_from_server();
   }
 
   render () {

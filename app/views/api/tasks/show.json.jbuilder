@@ -1,3 +1,1 @@
-json.task do
-  json.partial!('task', task: @task)
-end
+json.task @task.to_h

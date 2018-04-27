@@ -34,7 +34,11 @@ class WholeThing extends React.Component {
             </ul>
           </div>
         }
-        <TaskList errorCollector={this.errorCollector} />
+        <TaskList
+          initialTasks={this.props.initialTasks}
+          errorCollector={this.errorCollector}
+          csrfToken={this.props.csrfToken}
+        />
       </React.Fragment>
     );
   }

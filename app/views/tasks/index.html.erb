@@ -1,1 +1,5 @@
-<%= react_component('WholeThing') %>
+<%= react_component(
+      'WholeThing',
+      csrfToken: form_authenticity_token,
+      initialTasks: @tasks.map(&:to_h)
+                                          ) %>
