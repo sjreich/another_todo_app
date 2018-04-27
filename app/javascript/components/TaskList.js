@@ -15,7 +15,7 @@ class TaskList extends React.Component {
 
   render () {
     return (
-      <React.Fragment>
+      <div>
         <h3>My tasks</h3>
         <ul>
           {this.state.tasks.map((task) =>
@@ -24,7 +24,7 @@ class TaskList extends React.Component {
             </li>
           )}
         </ul>
-      </React.Fragment>
+      </div>
     );
   }
 
