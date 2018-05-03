@@ -27,10 +27,9 @@ class WholeThing extends React.Component {
   }
 
   collectError (error) {
-    this.setState((prevState, props) => {
-      prevState['errors'].push(error);
-    });
-    this.forceUpdate();
+    const errors = this.state.errors;
+    errors.push(error);
+    this.setState({'errors': errors});
   }
 }
 

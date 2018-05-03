@@ -49,22 +49,17 @@ class TaskList extends React.Component {
       .set('X-CSRF-Token', this.props.csrfToken)
       .send({task: {is_complete: is_complete} })
       .end((error, response) => {
+        const tasks = this.state['tasks'];
+        const task_index = tasks.findIndex(t => t.id === parseInt(task_id));
+
         if (error) {
           this.props.errorCollector(error);
-          this.setState((prevState, props) => {
-            const task_index = prevState['tasks'].findIndex(t => t.id === parseInt(task_id))
-            const task = prevState['tasks'][task_index];
-            task.is_complete = !is_complete;
-            prevState['tasks'].splice(task_index, task);
-          });
-          this.forceUpdate();
+          tasks[task_index].is_complete = !is_complete;
         } else {
-          this.setState((prevState, props) => {
-            const task_index = prevState['tasks'].findIndex(t => t.id === parseInt(task_id))
-            prevState['tasks'].splice(task_index, response.body.task);
-          });
-          this.forceUpdate();
+          tasks[task_index] = response.body.task;
         }
+
+        this.setState({'tasks': tasks});
       })
   }
 }
