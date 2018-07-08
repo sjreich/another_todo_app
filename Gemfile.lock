@@ -45,6 +45,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
+    bcrypt (3.1.11)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.7)
@@ -184,6 +185,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   bootstrap-sass
   byebug
   coffee-rails
@@ -202,4 +204,4 @@ DEPENDENCIES
   webpacker
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

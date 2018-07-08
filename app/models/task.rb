@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+  belongs_to :user, dependent: :destroy
+
   def complete?
     completed_at.present?
   end

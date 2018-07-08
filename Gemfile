@@ -13,6 +13,7 @@ gem 'webpacker'
 gem 'react-rails'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
+gem 'bcrypt'
 
 group :development, :test do
   gem 'byebug'
@@ -23,4 +24,3 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end
-

@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.all
+    @tasks = Task.where(user_id: params[:user_id])
   end
 end
